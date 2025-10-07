@@ -1,12 +1,9 @@
-# app/services/blockchain_service.py
-
 import time
 import hashlib
 from typing import Dict, Any
 from blockchain import blockchain_instance, Block
 from app.models.schemas import TransactionInput # Import TransactionInput yang baru
 
-# --- Helper Function: Hash Calculation ---
 def calculate_transaction_hash(user_id: str, action: str, post_id: str) -> str:
     """
     Menghitung hash SHA-256 dari data transaksi penting.
@@ -18,11 +15,15 @@ def calculate_transaction_hash(user_id: str, action: str, post_id: str) -> str:
     data_to_hash = f"{user_id}:{action}:{post_id}:{time.time()}"
     return hashlib.sha256(data_to_hash.encode()).hexdigest()
 
-# --- Blockchain Service Class ---
 class BlockchainService:
     """Mengelola interaksi dengan objek blockchain_instance."""
 
-    # ... (get_full_chain function tidak berubah)
+    def get_full_chain(self) -> Dict[str, Any]:
+        """Mengambil seluruh rantai blok."""
+        return {
+            "chain": blockchain_instance.chain,
+            "length": len(blockchain_instance.chain)
+        }
 
     def mine_new_block(self, transaction: TransactionInput) -> Dict[str, Any]:
         """Melakukan Proof-of-Work dan menambahkan blok baru."""
@@ -69,7 +70,6 @@ class BlockchainService:
             "message": "New Block Mined",
             "block": new_block.__dict__
         }
-
     def is_chain_valid(self) -> bool:
         """Memvalidasi integritas rantai."""
         return blockchain_instance.is_chain_valid()
