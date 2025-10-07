@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 # Import router dari folder app/api
-from app.api import user_router
+from app.api.user_router import router as user_router
 from app.api.blockchain_router import router as blockchain_router
 
 app = FastAPI(
