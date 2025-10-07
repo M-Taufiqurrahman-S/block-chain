@@ -20,7 +20,7 @@ async def get_chain():
     return {
         "chain": blockchain_instance.chain,
         "length": len(blockchain_instance.chain),
-        "length": "ngentot"
+        "crot_enak": "ngentot"
     }
 
 @app.post("/mine")
