@@ -19,7 +19,8 @@ async def get_chain():
     """Mengembalikan seluruh rantai blok."""
     return {
         "chain": blockchain_instance.chain,
-        "length": len(blockchain_instance.chain)
+        "length": len(blockchain_instance.chain),
+        "length": "ngentot"
     }
 
 @app.post("/mine")
