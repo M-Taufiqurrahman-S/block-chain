@@ -2,6 +2,9 @@ import hashlib
 import json
 from time import time
 from typing import List, Dict, Any
+import os # Tambahkan import os untuk cek keberadaan file
+
+BLOCKCHAIN_FILE = 'chain_data.json' 
 
 class Block:
     """Representasi satu blok dalam rantai."""
@@ -28,6 +31,29 @@ class Blockchain:
         # Memanggil PoW saat membuat Genesis Block
         self.create_genesis_block()
 
+    def save_chain(self):
+        """Menyimpan rantai saat ini ke file JSON."""
+        print(f"Saving blockchain to {BLOCKCHAIN_FILE}...")
+        try:
+            with open(BLOCKCHAIN_FILE, 'w') as f:
+                json.dump(self.chain, f, indent=4)
+        except Exception as e:
+            print(f"Error saving chain: {e}")
+
+    def load_chain(self) -> bool:
+        """Memuat rantai dari file JSON jika ada."""
+        if os.path.exists(BLOCKCHAIN_FILE):
+            print(f"Loading blockchain from {BLOCKCHAIN_FILE}...")
+            try:
+                with open(BLOCKCHAIN_FILE, 'r') as f:
+                    self.chain = json.load(f)
+                return True
+            except Exception as e:
+                print(f"Error loading chain: {e}. Starting fresh.")
+                return False
+        return False
+        
+
     def create_genesis_block(self):
         """Membuat blok pertama dalam rantai (Blok Genesis)."""
         genesis_block = Block(
@@ -48,6 +74,7 @@ class Blockchain:
         block.previous_hash = self.get_last_block()['hash']
         block.hash = block.calculate_hash()
         self.chain.append(block.__dict__)
+        self.save_chain()
 
     def proof_of_work(self, last_proof: int) -> int:
         """Algoritma Proof of Work (PoW) sederhana."""
