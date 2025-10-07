@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 # Import router dari folder app/api
+from app.api import user_router
 from app.api.blockchain_router import router as blockchain_router
 
 app = FastAPI(
@@ -11,6 +12,7 @@ app = FastAPI(
 # 1. Menambahkan Router/Controller ke aplikasi utama
 # Semua endpoint sekarang akan dimulai dengan /blockchain (berdasarkan prefix di router.py)
 app.include_router(blockchain_router)
+app.include_router(user_router)
 
 # Endpoint root (opsional)
 @app.get("/")

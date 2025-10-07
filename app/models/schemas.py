@@ -12,3 +12,13 @@ class TransactionInput(BaseModel):
 class BlockResponse(BaseModel):
     message: str
     block: Dict[str, Any]
+
+class UserCreate(BaseModel):
+    name: str
+    email: str
+    password: str
+
+class User(BaseModel):
+    id: str
+    name: str
+    email: str
